@@ -42,8 +42,7 @@ def leerDatos():
             if i==0:
                 i=i+1
             else:
-                sql="replace into datos (idCasos, fechaNotificacion, codigoDIVIPOLA, ciudad, departamento,atencion,edad,sexo,tipo,estado,paisProcedencia,fis,fechaDiagnostico, fechaRecuperado,fechaReporteWeb,tipoRec,codigoDepartamento,codigoPais,etnia) values (%s,'%s',%s,'%s','%s','%s',%s,'%s','%s','%s','%s','%s') "
-                                                                                                                                                                                                                                                                ("+row[0]+", '"+row[1]+"', "+row[2]+", '"+row[3]+"', '"+row[4]+"','"+row[5]+"',"+row[6]+",'"+row[7]+"','"+row[8]+"','"+row[9]+"','"+row[10]+"','"+row[11]+"', '"+row[12]+"','"+row[13]+"','"+row[14]+"','"+row[15]+"',"+row[16]+","+row[17]+",'"+row[18]+"');
+                sql="replace into datos (idCasos, fechaNotificacion, codigoDIVIPOLA, ciudad, departamento,atencion,edad,sexo,tipo,estado,paisProcedencia,fis,fechaDiagnostico, fechaRecuperado,fechaReporteWeb,tipoRec,codigoDepartamento,codigoPais,etnia) values (%s,'%s',%s,'%s','%s','%s',%s,'%s','%s','%s','%s','%s');"
                 cursor1=conexion.cursor()
                 cursor1.execute(sql) 
         conexion.commit()
