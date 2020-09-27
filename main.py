@@ -9,26 +9,24 @@ import mysql.connector
 import csv
 from mysql.connector import Error
 
-try:
-    connection = mysql.connector.connect(host='localhost',
-                                         database='DatosCovid',
-                                         user='root',
-                                         password='1234')
-    if connection.is_connected():
-        db_Info = connection.get_server_info()
-        print("Connected to MySQL Server version ", db_Info)
-        cursor = connection.cursor()
-        cursor.execute("select database();")
-        record = cursor.fetchone()
-        print("You're connected to database: ", record)
-
-except Error as e:
-    print("Error while connecting to MySQL", e)
-finally:
-    if (connection.is_connected()):
-        cursor.close()
-        connection.close()
-        print("MySQL connection is closed")
+def tomarConexión():
+    try:
+        connection = mysql.connector.connect(host='localhost',
+                                             database='DatosCovid',
+                                             user='root',
+                                             password='1234')
+        if connection.is_connected():
+            db_Info = connection.get_server_info()
+            print("Connected to MySQL Server version ", db_Info)
+            cursor = connection.cursor()
+            cursor.execute("select database();")
+            record = cursor.fetchone()
+            print("You're connected to database: ", record)
+        return connection
+    except Error as e:
+        print("Error while connecting to MySQL", e)
+        raise e
+    
 
 
 def cargarDatos():
@@ -36,15 +34,20 @@ def cargarDatos():
     myfile = requests.get(url)
     open('datosCovid.csv', 'wb').write(myfile.content)
 def leerDatos():
-    with open('datosCovid.csv', newline='') as File:
+    with open('datosCovid.csv', newline='',encoding='cp850') as File:
         reader = csv.reader(File)
-        i=0
+        conexion = tomarConexión()
+        i =0
         for row in reader:
-            print(row)
-            if i<50:
-                i=1+i
+            if i==0:
+                i=i+1
             else:
-                break
+                sql="replace into datos (idCasos, fechaNotificacion, codigoDIVIPOLA, ciudad, departamento,atencion,edad,sexo,tipo,estado,paisProcedencia,fis,fechaDiagnostico, fechaRecuperado,fechaReporteWeb,tipoRec,codigoDepartamento,codigoPais,etnia) values (%s,'%s',%s,'%s','%s','%s',%s,'%s','%s','%s','%s','%s') "
+                                                                                                                                                                                                                                                                ("+row[0]+", '"+row[1]+"', "+row[2]+", '"+row[3]+"', '"+row[4]+"','"+row[5]+"',"+row[6]+",'"+row[7]+"','"+row[8]+"','"+row[9]+"','"+row[10]+"','"+row[11]+"', '"+row[12]+"','"+row[13]+"','"+row[14]+"','"+row[15]+"',"+row[16]+","+row[17]+",'"+row[18]+"');
+                cursor1=conexion.cursor()
+                cursor1.execute(sql) 
+        conexion.commit()
+        conexion.close()
 cargarDatos()
 leerDatos()
 
