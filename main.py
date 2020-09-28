@@ -32,21 +32,31 @@ def tomarConexión():
 def cargarDatos():
     url = 'https://www.datos.gov.co/api/views/gt2j-8ykr/rows.csv?accessType=DOWNLOAD'
     myfile = requests.get(url)
+    print("Descargando archivo de datos")
     open('datosCovid.csv', 'wb').write(myfile.content)
+    print("Archivo descargado satisfactoriamente")
 def leerDatos():
+    print("Inicio de carga de datos")
     with open('datosCovid.csv', newline='',encoding='cp850') as File:
         reader = csv.reader(File)
         conexion = tomarConexión()
-        i =0
+        contador=0
+        i=0
+        cursor1=conexion.cursor()
         for row in reader:
             if i==0:
                 i=i+1
             else:
-                sql="replace into datos (idCasos, fechaNotificacion, codigoDIVIPOLA, ciudad, departamento,atencion,edad,sexo,tipo,estado,paisProcedencia,fis,fechaDiagnostico, fechaRecuperado,fechaReporteWeb,tipoRec,codigoDepartamento,codigoPais,etnia) values (%s,'%s',%s,'%s','%s','%s',%s,'%s','%s','%s','%s','%s');"
-                cursor1=conexion.cursor()
-                cursor1.execute(sql) 
+                sql="replace into datos (idCasos, fechaNotificacion, codigoDIVIPOLA, ciudad, departamento,atencion,edad,sexo,tipo,estado,paisProcedencia,fis,fechaDeMuerte,fechaDiagnostico, fechaRecuperado,fechaReporteWeb,tipoRec,codigoDepartamento,codigoPais,etnia,nombreGrupoEtnico) values (%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s);"
+                for it in range(len(row)):
+                    if str(row[it])=="":
+                        row[it]=None
+                cursor1.execute(sql,(row[0],row[1],row[2],row[3],row[4],row[5],row[6],row[7],row[8],row[9],row[10],row[11],row[12],row[13],row[14],row[15],row[16],row[17],row[18],row[19],row[20])) 
+                print("Cargando base de datos: "+str(contador) )# int((i/reader.line_num))*100)
+                contador=contador+1
         conexion.commit()
         conexion.close()
+
 cargarDatos()
 leerDatos()
 
