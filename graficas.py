@@ -35,9 +35,9 @@ x=np.arange(len(departamentos))
 width=0.20
 #barra hombre
 fig, ax = plt.subplots()
-rectaMasc=ax.bar(x-width/2,masculino,width,label='masculino')
+rectaMasc=ax.bar(x-width/2,masculino,width,label='Masculino')
 #barra femenino
-rectafem=ax.bar(x+width/2+0.01,femenino,width,label='femenino')
+rectafem=ax.bar(x+width/2+0.1,femenino,width,label='Femenino')
 #etiquetas
 ax.set_ylabel('contagiados')
 ax.set_title('Gráfica de contagiados por departamento según género')
@@ -59,5 +59,45 @@ autolabel(rectaMasc)
 autolabel(rectafem)
 fig.tight_layout()
 plt.savefig('doble_barra.png')
+plt.show()
+
+#Gráfica N3 edades en Colombia 
+cursor = conexion.cursor(buffered=True)
+cursor.execute('select edad, count(*) as contagiados from datos group by edad;')
+edades=['1 a 20','21 a 40','41 a 60','61 a 80','Mayores a 80']
+
+valores=[]
+
+cursor.execute('select count(*) as contagiados from datos where edad between 1 and 20;')
+for fila in cursor:
+    valores.append(fila[0])
+
+cursor.execute('select count(*) as contagiados from datos where edad between 21 and 40;')
+for fila in cursor:
+    valores.append(fila[0])
+
+cursor.execute('select count(*) as contagiados from datos where edad between 41 and 60;')
+for fila in cursor:
+    valores.append(fila[0])
+
+cursor.execute('select count(*) as contagiados from datos where edad between 61 and 80;')
+for fila in cursor:
+    valores.append(fila[0])   
+
+cursor.execute('select count(*) as contagiados from datos where edad > 80;')
+for fila in cursor:
+    valores.append(fila[0])
+
+fig, ax=plt.subplots()
+#Etiqueta en el eje y
+ax.set_ylabel('edades')
+#Etiqueta en el eje x
+ax.set_xlabel('Intervalos')
+#Titulo
+ax.set_title('Gráfica contagios por intervalos de edades en Colombia')
+
+plt.bar(edades, valores)
+plt.savefig('barras_simple.png')
+
 plt.show()
 conexion.close()
