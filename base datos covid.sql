@@ -36,3 +36,7 @@ create user natalia@25.56.171.88;
 grant all privileges on DatosCovid.* to natalia@25.56.171.88;
 create user santiago@25.57.195.191;
 grant all privileges on DatosCovid.* to santiago@25.57.195.191;
+create user camila@25.56.171.88;
+grant all privileges on datoscovid.* to camila@25.56.171.88;
+create user camila@25.56.168.158;
+grant all privileges on datoscovid.*to camila@25.56.168.158;
