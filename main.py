@@ -11,10 +11,10 @@ from mysql.connector import Error
 
 def tomarConexión():
     try:
-        connection = mysql.connector.connect(host='25.57.195.191',
+        connection = mysql.connector.connect(host='localhost',
                                              database='DatosCovid',
-                                             user='camila',
-                                             password='')
+                                             user='root',
+                                             password='1234')
         if connection.is_connected():
             db_Info = connection.get_server_info()
             print("Connected to MySQL Server version ", db_Info)
