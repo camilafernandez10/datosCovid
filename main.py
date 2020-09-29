@@ -2,7 +2,7 @@
 
 # Press Mayús+F10 to execute it or replace it with your code.
 # Press Double Shift to search everywhere for classes, files, tool windows, actions, and settings.
-
+# Descargar los datos y Actualizar los datos
 
 import requests
 import mysql.connector
@@ -11,10 +11,10 @@ from mysql.connector import Error
 
 def tomarConexión():
     try:
-        connection = mysql.connector.connect(host='localhost',
+        connection = mysql.connector.connect(host='25.57.195.191',
                                              database='DatosCovid',
-                                             user='root',
-                                             password='1234')
+                                             user='camila',
+                                             password='')
         if connection.is_connected():
             db_Info = connection.get_server_info()
             print("Connected to MySQL Server version ", db_Info)
@@ -57,8 +57,7 @@ def leerDatos():
         conexion.commit()
         conexion.close()
 
-cargarDatos()
-leerDatos()
+
 
 
 # Press the green button in the gutter to run the script.
