@@ -11,10 +11,10 @@ from mysql.connector import Error
 
 def tomarConexión():
     try:
-        connection = mysql.connector.connect(host='localhost',
+        connection = mysql.connector.connect(host='25.57.195.191',
                                              database='DatosCovid',
-                                             user='root',
-                                             password='1234')
+                                             user='camila',
+                                             password='')
         if connection.is_connected():
             db_Info = connection.get_server_info()
             print("Connected to MySQL Server version ", db_Info)
@@ -44,16 +44,13 @@ def leerDatos():
         i=0
         cursor1=conexion.cursor()
         for row in reader:
-            if i==0:
-                i=i+1
-            else:
-                sql="replace into datos (idCasos, fechaNotificacion, codigoDIVIPOLA, ciudad, departamento,atencion,edad,sexo,tipo,estado,paisProcedencia,fis,fechaDeMuerte,fechaDiagnostico, fechaRecuperado,fechaReporteWeb,tipoRec,codigoDepartamento,codigoPais,etnia,nombreGrupoEtnico) values (%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s);"
-                for it in range(len(row)):
-                    if str(row[it])=="":
-                        row[it]=None
-                cursor1.execute(sql,(row[0],row[1],row[2],row[3],row[4],row[5],row[6],row[7],row[8],row[9],row[10],row[11],row[12],row[13],row[14],row[15],row[16],row[17],row[18],row[19],row[20])) 
-                print("Cargando base de datos: "+str(contador) )# int((i/reader.line_num))*100)
-                contador=contador+1
+            sql="replace into datos (idCasos, fechaNotificacion, codigoDIVIPOLA, ciudad, departamento,atencion,edad,sexo,tipo,estado,paisProcedencia,fis,fechaDeMuerte,fechaDiagnostico, fechaRecuperado,fechaReporteWeb,tipoRec,codigoDepartamento,codigoPais,etnia,nombreGrupoEtnico) values (%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s);"
+            for it in range(len(row)):
+                if str(row[it])=="":
+                   row[it]=None
+            cursor1.execute(sql,(row[0],row[1],row[2],row[3],row[4],row[5],row[6],row[7],row[8],row[9],row[10],row[11],row[12],row[13],row[14],row[15],row[16],row[17],row[18],row[19],row[20]))
+            print("Cargando base de datos: "+str(contador/reader.line_num*100)+'%')# int((i/reader.line_num))*100)
+            contador=contador+1
         conexion.commit()
         conexion.close()
 
