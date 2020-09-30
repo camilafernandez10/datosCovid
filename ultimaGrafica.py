@@ -12,6 +12,7 @@ for fila in cursor:
     atencion.append(fila[0])
     cantidad.append(fila[1])
 fig, ax = plt.subplots()
+
 #Colocamos una etiqueta en el eje Y
 ax.set_ylabel('Personas')
 #Colocamos una etiqueta en el eje X
