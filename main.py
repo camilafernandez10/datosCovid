@@ -11,10 +11,10 @@ from mysql.connector import Error
 
 def tomarConexión():
     try:
-        connection = mysql.connector.connect(host='25.57.195.191',
+        connection = mysql.connector.connect(host='localhost',
                                              database='DatosCovid',
-                                             user='camila',
-                                             password='')
+                                             user='root',
+                                             password='1234')
         if connection.is_connected():
             db_Info = connection.get_server_info()
             print("Connected to MySQL Server version ", db_Info)
@@ -41,21 +41,25 @@ def leerDatos():
         reader = csv.reader(File)
         conexion = tomarConexión()
         contador=0
-        i=0
         cursor1=conexion.cursor()
         for row in reader:
-            sql="replace into datos (idCasos, fechaNotificacion, codigoDIVIPOLA, ciudad, departamento,atencion,edad,sexo,tipo,estado,paisProcedencia,fis,fechaDeMuerte,fechaDiagnostico, fechaRecuperado,fechaReporteWeb,tipoRec,codigoDepartamento,codigoPais,etnia,nombreGrupoEtnico) values (%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s);"
-            for it in range(len(row)):
-                if str(row[it])=="":
-                   row[it]=None
-            cursor1.execute(sql,(row[0],row[1],row[2],row[3],row[4],row[5],row[6],row[7],row[8],row[9],row[10],row[11],row[12],row[13],row[14],row[15],row[16],row[17],row[18],row[19],row[20]))
-            print("Cargando base de datos: "+str(contador/reader.line_num*100)+'%')# int((i/reader.line_num))*100)
-            contador=contador+1
+            if contador==0:
+                contador=1
+            else:
+                sql="replace into datos (idCasos, fechaNotificacion, codigoDIVIPOLA, ciudad, departamento,atencion,edad,sexo,tipo,estado,paisProcedencia,fis,fechaDeMuerte,fechaDiagnostico, fechaRecuperado,fechaReporteWeb,tipoRec,codigoDepartamento,codigoPais,etnia,nombreGrupoEtnico) values (%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s);"
+                for it in range(len(row)):
+                    if str(row[it])=="":
+                        row[it]=None
+                cursor1.execute(sql,(row[0],row[1],row[2],row[3],row[4],row[5],row[6],row[7],row[8],row[9],row[10],row[11],row[12],row[13],row[14],row[15],row[16],row[17],row[18],row[19],row[20]))
+                print("Cargando base de datos: "+str(((contador-1)*1000)/reader.line_num)+'%')# int((i/reader.line_num))*100)
+                contador=contador+1
         conexion.commit()
         conexion.close()
 
 
-
+if __name__ == "__main__":
+    cargarDatos()
+    leerDatos()
 
 # Press the green button in the gutter to run the script.
 
