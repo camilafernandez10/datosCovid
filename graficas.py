@@ -5,6 +5,8 @@ from main import tomarConexión
 conexion=tomarConexión()
 paleta=['#1abc9c','#ffdd33']
 cursor=conexion.cursor()
+matplotlib.rc('xtick', labelsize=10) 
+matplotlib.rc('ytick', labelsize=10) 
 #grafica N1 genero colombia
 cursor.execute('select sexo,count(*) as cantidad from datos group by sexo;')
 cantidad=[]
@@ -13,8 +15,9 @@ for fila in cursor:
 sexo=['Femenino','Masculino']
 colores=[paleta[0],paleta[1]]
 print(cursor)
-plt.title("Gráfica de contagios respecto género en Colombia")
-plt.pie(cantidad, labels=sexo, colors=colores, startangle=90, explode=(0.01,0.01), radius=1.2, autopct='%1.2f%%' )
+plt.title("Contagios respecto género en Colombia",fontsize=18)
+plt.pie(cantidad, labels=sexo, colors=colores, startangle=90, explode=(0.01,0.01), radius=1.2, autopct='%1.2f%%',textprops={'fontsize':14})
+plt.savefig('Circular.png')
 plt.show()
 
 #grafica N2 genero departamentos
@@ -34,15 +37,16 @@ x=np.arange(len(departamentos))
 #tamaño barra
 width=0.20
 #barra hombre
-fig, ax = plt.subplots()
+fig, ax = plt.subplots(figsize=(13,7))
 rectaMasc=ax.bar(x-width/2,masculino,width,label='Masculino')
 #barra femenino
-rectafem=ax.bar(x+width/2+0.1,femenino,width,label='Femenino')
+rectafem=ax.bar(x+width/2+0.15,femenino,width,label='Femenino')
 #etiquetas
-ax.set_ylabel('contagiados')
-ax.set_title('Gráfica de contagiados por departamento según género')
+ax.set_ylabel('Contagiados',fontsize=14)
+ax.set_title('Contagiados por departamento según género',fontsize=18)
 ax.set_xticks(x)
-ax.set_xticklabels(departamentos)
+ax.set_xticklabels(departamentos,fontsize=9)
+ax.set_xlabel('Departamento',fontsize=14)
 #leyenda
 ax.legend()
 #funcion para agregar etiqueta a cada barra
@@ -58,7 +62,7 @@ def autolabel(rects):
 autolabel(rectaMasc)
 autolabel(rectafem)
 fig.tight_layout()
-#plt.savefig('doble_barra.png')
+plt.savefig('doble_barra.png')
 plt.show()
 
 #Gráfica N3 edades en Colombia 
@@ -88,16 +92,16 @@ cursor.execute('select count(*) as contagiados from datos where edad > 80;')
 for fila in cursor:
     valores.append(fila[0])
 
-fig, ax=plt.subplots()
+fig, ax=plt.subplots(figsize=(10,5))
 #Etiqueta en el eje y
-ax.set_ylabel('edades')
+ax.set_ylabel('Edades',fontsize=14)
 #Etiqueta en el eje x
-ax.set_xlabel('Intervalos')
+ax.set_xlabel('Intervalos', fontsize=14)
 #Titulo
-ax.set_title('Gráfica contagios por intervalos de edades en Colombia')
+ax.set_title('Contagios por intervalos de edades en Colombia',fontsize=18)
 
 plt.bar(edades, valores)
-#plt.savefig('barras_simple.png')
+plt.savefig('barras_edad.png')
 
 plt.show()
 
@@ -108,17 +112,17 @@ cantidad=[]
 for fila in cursor:
     atencion.append(fila[0])
     cantidad.append(fila[1])
-fig, ax = plt.subplots()
+fig, ax = plt.subplots(figsize=(10,5))
 
 #Colocamos una etiqueta en el eje Y
-ax.set_ylabel('Personas')
+ax.set_ylabel('Personas',fontsize=14)
 #Colocamos una etiqueta en el eje X
-ax.set_xlabel('Estado')
+ax.set_xlabel('Estado',fontsize=14)
 #Título
-ax.set_title('Estado actual de las personas')
+ax.set_title('Estado actual de las personas',fontsize=18)
 #Creamos la grafica de barras utilizando 'paises' como eje X y 'ventas' como eje y.
 plt.bar(atencion, cantidad)
-#plt.savefig('estadosPersonas.png')
+plt.savefig('barras_estado.png')
 #Finalmente mostramos la grafica con el metodo show()
 plt.show()
 conexion.close()

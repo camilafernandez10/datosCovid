@@ -37,7 +37,7 @@ def cargarDatos():
     print("Archivo descargado satisfactoriamente")
 def leerDatos():
     print("Inicio de carga de datos")
-    with open('datosCovid.csv', newline='',encoding='cp850') as File:
+    with open('datosCovid.csv', newline='',encoding='utf-8') as File:
         reader = csv.reader(File)
         conexion = tomarConexión()
         contador=0
@@ -51,7 +51,7 @@ def leerDatos():
                     if str(row[it])=="":
                         row[it]=None
                 cursor1.execute(sql,(row[0],row[1],row[2],row[3],row[4],row[5],row[6],row[7],row[8],row[9],row[10],row[11],row[12],row[13],row[14],row[15],row[16],row[17],row[18],row[19],row[20]))
-                print("Cargando base de datos: "+str(((contador-1)*1000)/reader.line_num)+'%')# int((i/reader.line_num))*100)
+                print("Cargando base de datos: "+str(int(((contador-1)*100)/reader.line_num))+'%')# int((i/reader.line_num))*100)
                 contador=contador+1
         conexion.commit()
         conexion.close()
