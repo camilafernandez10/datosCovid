@@ -106,7 +106,7 @@ plt.savefig('barras_edad.png')
 plt.show()
 
 #Gráfica N4: Gráfica del número de recuperados, activos y fallecidos
-cursor.execute('select atencion, count(*) as personas from datos group by atencion order by personas desc;')
+cursor.execute('select recuperado, count(*) as contagios from datos group by recuperado;')
 atencion=[]
 cantidad=[]
 for fila in cursor:

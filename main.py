@@ -10,10 +10,10 @@ import datetime
 
 def tomarConexión():
     try:
-        connection = mysql.connector.connect(host='localhost',
+        connection = mysql.connector.connect(host='25.57.195.191',
                                              database='DatosCovid',
-                                             user='root',
-                                             password='1234')
+                                             user='natalia',
+                                             password='')
         if connection.is_connected():
             db_Info = connection.get_server_info()
             print("Connected to MySQL Server version ", db_Info)
