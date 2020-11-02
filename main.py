@@ -10,10 +10,10 @@ import datetime
 
 def tomarConexión():
     try:
-        connection = mysql.connector.connect(host='25.57.195.191',
+        connection = mysql.connector.connect(host='localhost',
                                              database='DatosCovid',
-                                             user='natalia',
-                                             password='')
+                                             user='root',
+                                             password='1234')
         if connection.is_connected():
             db_Info = connection.get_server_info()
             print("Connected to MySQL Server version ", db_Info)
@@ -75,7 +75,7 @@ def cargarDatosBogota():
     print("Archivo descargado satisfactoriamente")
 def leerDatosBogota():
     print("Inicio de carga de datos")
-    with open('datosCovidBogota.csv',newline='',encoding='latin-1') as File:
+    with open('datosCovidBogota.csv',newline='',encoding='utf-8') as File:
         reader = csv.reader(File,delimiter=';')
         conexion = tomarConexión()
         contador=0

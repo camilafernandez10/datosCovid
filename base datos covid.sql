@@ -53,3 +53,12 @@ select ciudad, count(*) as contagios from datos group by ciudad order by contagi
 select departamento, sexo, count(*) as contagios from datos 
 group by departamento,sexo 
 order by departamento desc, contagios asc;
+
+select month("2020-10-01");
+
+select localidad_asis,month(fecha_diagnostico) as mes,count(*) as contagios from datosbogota 
+where month(fecha_diagnostico) between 3 and month(curdate()) and localidad_asis<>"Sin dato" and localidad_asis<>'Fuera de Bogotá'
+group by localidad_asis,month(fecha_diagnostico) 
+order by localidad_asis,mes;  
+select distinct localidad_asis from datosbogota where localidad_asis<>"Sin dato" and localidad_asis<>'Fuera de Bogotá';
+desc datosbogota;
