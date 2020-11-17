@@ -75,7 +75,7 @@ def cargarDatosBogota():
     print("Archivo descargado satisfactoriamente")
 def leerDatosBogota():
     print("Inicio de carga de datos")
-    with open('datosCovidBogota.csv',newline='',encoding='utf-8') as File:
+    with open('datosCovidBogota.csv',newline='',encoding='latin-1') as File:
         reader = csv.reader(File,delimiter=';')
         conexion = tomarConexión()
         contador=0
@@ -104,12 +104,15 @@ def leerDatosBogota():
                 for it in range(len(row)):
                     if str(row[it])=="":
                         row[it]=None
-                if row[0]is not None:
-                    row[0]=datetime.datetime.strptime(row[0], '%d/%m/%Y')
-                    row[0] = row[0].strftime('%Y-%m-%d')
-                if row[1]is not None:
-                    row[1]=datetime.datetime.strptime(row[1], '%d/%m/%Y')
-                    row[1] = row[1].strftime('%Y-%m-%d')
+                try:   
+                    if row[0]is not None:
+                        row[0]=datetime.datetime.strptime(row[0], '%d/%m/%Y')
+                        row[0] = row[0].strftime('%Y-%m-%d')
+                    if row[1]is not None:
+                        row[1]=datetime.datetime.strptime(row[1], '%d/%m/%Y')
+                        row[1] = row[1].strftime('%Y-%m-%d')
+                except:
+                    continue
                 cursor1.execute(sql,(row[0],row[1],row[2],row[3],row[4],row[6],row[7],row[8],row[9]))
                 print("Cargando base de datos: "+str(int(((contador-1)/reader.line_num)))+'%'""",end="\r""")# int((i/reader.line_num))*100)
                 contador+=1
