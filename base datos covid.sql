@@ -102,6 +102,8 @@ from datos
 where municipio="Bogotá"
 group by fecha_reporte_web ) as q1;
 
+select timestampdiff(day,@primerDia,"2020-12-24");
+
 select count(*) from datosBogota;
 
 

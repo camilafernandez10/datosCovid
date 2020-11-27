@@ -120,8 +120,8 @@ def leerDatosBogota():
         conexion.close()
 
 if __name__ == "__main__":
-    #cargarDatosPais()
-    #leerDatosPais()
-    #cargarDatosBogota()
+    cargarDatosPais()
+    leerDatosPais()
+    cargarDatosBogota()
     leerDatosBogota()
 
